@@ -56,7 +56,7 @@ public final class AngelSkyEconomy extends JavaPlugin {
 
         Objects.requireNonNull(getCommand("balance")).setExecutor(new BalanceCommand(this));
         Objects.requireNonNull(getCommand("pay")).setExecutor(new PayCommand(this));
-        Objects.requireNonNull(getCommand("balancetop")).setExecutor(new BalanceTopCommand(this));
+        Objects.requireNonNull(getCommand("baltop")).setExecutor(new BalanceTopCommand(this));
 
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
 
