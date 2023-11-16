@@ -5,3 +5,8 @@ api-version: 1.18
 prefix: AngelSkyEco
 authors: [Ariouz]
 website: https://angelsky.fr
+commands:
+  money:
+  pay:
+  balance:
+  balancetop:
