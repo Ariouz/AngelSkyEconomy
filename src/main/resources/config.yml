@@ -1,0 +1,165 @@
+# All intervals are in ticks (20 ticks = 1 second)
+BalanceTopTimerInterval: 1200
+
+currencyNameSingular: "AngelCoin"
+currencyNamePlural: "AngelCoins"
+startingBalance: 100.00
+# Changing the locale will change wht format the money is in, see
+# https://www.techonthenet.com/js/language_tags.php for examples.
+locale: "en-US"
+# Note: The custom symbol may not work if minecraft doesn't allow that symbol.
+#       The custom symbol may need to be in unicode format (e.g. \u26C3 for
+#       dollar sign) to be able to work.
+customSymbolEnabled: false
+customSymbol: ""
+
+mysql:
+  use-mysql: true
+  host: "45.13.119.110"
+  port: 3306
+  database: "angelsky_server"
+  username: "server"
+  password: "zD23W-94byk3"
+  table: "skyblock_economy"
+
+suffixes:
+  # amount is multiplied by 10^number.
+  # e.g. for k, the amount is multiplied by 10^3 (1,000)
+  k: 3
+  K: 3
+  m: 6
+  M: 6
+  b: 9
+  B: 9
+  t: 12
+  T: 12
+  q: 15
+  Q: 15
+
+messages:
+
+  prefix: "&6&lEconomie &f»"
+  nopermission:
+    - "%prefix% &cVous n'avez pas la permission d'executer cette commande!"
+  playersOnly:
+    - "%prefix% &cSeul un joueur peut executer cette commade!"
+
+  balance:
+    usage:
+      - "%prefix% &cSyntaxe: /balance"
+      - "%prefix% &cSyntaxe: /balance {joueur}"
+    noAccount:
+      - "%prefix% &cVous n'avez pas de compte!"
+    balance:
+      - "%prefix% Vous avez &e%balance%&f."
+    otherNoAccount:
+      - "%prefix% &5%player% &cn'a pas de compte!'"
+    otherBalance:
+      - "%prefix% &5%player%&f a &e%balance%&f."
+
+  money:
+
+    invalidSubCommand:
+      - "%prefix% &cCette commande n'existe pas!"
+
+    give:
+      usage:
+        - "%prefix% &cSyntaxe: /money give {joueur} {quantité}"
+      otherDoesntExist:
+        - "%prefix% &5%player% &cn'exsite pas!"
+      otherNoAccount:
+        - "%prefix% &5%player% &cn'a pas de compte!"
+      invalidAmount:
+        - "%prefix% &5%amount% &cn'est pas un montant valide!"
+      sent:
+        - "%prefix% &aVous avez envoyé &e%amount% &aà &5%player%&a."
+      sentMultiple:
+        - "%prefix% &aVous avez envoyé &e%amount%&a à &b%total% &ajoueurs."
+      received:
+        - "%prefix% &aVous avez reçu &e%amount%&a."
+
+    help:
+      usage:
+        - "%prefix% &cSyntaxe: /money help"
+      message:
+        - "%prefix% &eCommandes:"
+        - "%prefix% &b/money help"
+        - "%prefix% &b/balancetop"
+        - "%prefix% &b/balance"
+        - "%prefix% &b/balance {joueur}"
+        - "%prefix% &b/pay {joueur} {quantité}"
+
+    reload:
+      usage:
+        - "%prefix% &cSyntaxe: /money reload"
+      reloaded:
+        - "%prefix% &aEconomie redémarrée."
+
+    set:
+      usage:
+        - "%prefix% &cSyntaxe: /money set {player} {amount}"
+      otherDoesntExist:
+        - "%prefix% &5%player% &cn'existe pas!"
+      otherNoAccount:
+        - "%prefix% &5%player% &cn'a pas de compte!"
+      invalidAmount:
+        - "%prefix% &5%amount% &cest un montant invalide!"
+      setter:
+        - "%prefix% &5%player%&a a désormais &e%balance%&a."
+      setterMultiple:
+        - "%prefix% &b%total% joueurs ont désormais &e%balance%&a."
+      set:
+        - "%prefix% &aVous avez désormais &e%amount%&a."
+
+    take:
+      usage:
+        - "%prefix% &cSyntaxe: /money take {player} {amount}"
+      otherDoesntExist:
+        - "%prefix% &5%player% &cn'existe pas!"
+      otherNoAccount:
+        - "%prefix% &5%player% &cn'a pas de compte!"
+      invalidAmount:
+        - "%prefix% &5%amount% &cest un montant invalide!"
+      insufficientFunds:
+        - "%prefix% &5%player% &cn'a pas suffisament d'argent!"
+      take:
+        - "%prefix% &e%amount% &aont été retirés du compte de &5%player%&a."
+      takeMultiple:
+        - "%prefix% &e%amount% &aont été retirés des comptes de &b%total% &ajoueurs."
+      taken:
+        - "%prefix% &e%amount% &aont été retirés de votre compte."
+
+  pay:
+    usage:
+      - "%prefix% &cSyntaxe: /pay {joueur} {montant}"
+    otherDoesntExist:
+      - "%prefix% &5%player% &cn'existe pas!"
+    noAccount:
+      - "%prefix% &cVous n'avez pas de compte!"
+    otherNoAccount:
+      - "%prefix% &5%player% &cn'a pas de compte!"
+    cannotPaySelf:
+      - "%prefix% &cVous ne pouvez pas vous envoyer de l'argent à vous même!"
+    invalidAmount:
+      - "%prefix% &5%amount% &cest un montant invalide"
+    insufficientFunds:
+      - "%prefix% &cVous n'avez pas suffisament d'argent!"
+    paid:
+      - "%prefix% &aVous avez envoyé &e%amount%&a à &5%player%."
+    received:
+      - "%prefix% &aVous avez reçu &e%amount% de &5%player%&a."
+
+  top:
+    usage:
+      - "%prefix% &cSyntaxe: /baltop"
+      - "%prefix% &cSyntaxe: /baltop {page}"
+    noAccounts:
+      - "%prefix% &cIl n'y a aucun compte!"
+    invalidTop:
+      - "%prefix% &5%top% &cest une page invalide!"
+    notEnoughPlayers:
+      - "%prefix% &cIl n'y a pas suffisament de joueurs!"
+    message:
+      - "%prefix% &f[&c%rank%&f] &6%player%&7: &e%balance%"
+    self:
+      - "%prefix% &f[&c%rank%&f] &6%player%&7: &e%balance% &8(&7Vous&8)"

@@ -79,7 +79,10 @@ public class ConfigHandler {
   public String getPassword() {
     return getConfig().getString("mysql.password");
   }
-  
+  public String getTable() {
+    return getConfig().getString("mysql.table");
+  }
+
   public Map<String, Integer> getSuffixes() {
     Map<String, Integer> suffixes = new HashMap<>();
     for (String suffix : getConfig().getConfigurationSection("suffixes").getKeys(false)) {
