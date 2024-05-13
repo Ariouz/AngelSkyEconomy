@@ -5,11 +5,9 @@ import fr.angelsky.angelskyeconomy.commands.BalanceTopCommand;
 import fr.angelsky.angelskyeconomy.commands.PayCommand;
 import fr.angelsky.angelskyeconomy.commands.money.MoneyCommandHandler;
 import fr.angelsky.angelskyeconomy.data.ConfigHandler;
-import fr.angelsky.angelskyeconomy.eco.Economy;
-import fr.angelsky.angelskyeconomy.eco.SQLEconomy;
-import fr.angelsky.angelskyeconomy.eco.VaultImpl;
-import fr.angelsky.angelskyeconomy.eco.YamlEconomy;
+import fr.angelsky.angelskyeconomy.eco.*;
 import fr.angelsky.angelskyeconomy.listeners.PlayerJoinListener;
+import fr.angelsky.angelskyeconomy.listeners.PlayerQuitListener;
 import fr.angelsky.angelskyeconomy.runnables.BalanceTopRunnable;
 import fr.angelsky.angelskyeconomy.utils.StringUtils;
 import org.bukkit.Bukkit;
@@ -31,6 +29,8 @@ public final class AngelSkyEconomy extends JavaPlugin {
     private Map<String, Integer> suffixes = new HashMap<>();
     private StringUtils stringUtils;
     private ConfigHandler configHandler;
+
+    private final HashMap<UUID, TempPlayerEco> accounts = new HashMap<>();
 
     public void onEnable() {
         saveDefaultConfig();
@@ -59,14 +59,23 @@ public final class AngelSkyEconomy extends JavaPlugin {
         Objects.requireNonNull(getCommand("baltop")).setExecutor(new BalanceTopCommand(this));
 
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerQuitListener(this), this);
 
         if (configHandler.isSQL())
             eco = new SQLEconomy(this);
         else
             eco = new YamlEconomy(this);
+
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            this.accounts.put(player.getUniqueId(), new TempPlayerEco(player.getUniqueId(), eco.getSQLBalance(player.getUniqueId()).getBalance()));
+        });
     }
 
-    public void onDisable() {}
+    public void onDisable() {
+        this.accounts.forEach((uuid, tempEco) -> {
+            this.getEco().saveTempEco(tempEco);
+        });
+    }
 
     private void addSqlColumns() {
         sqlColumns.put("Balance", "DECIMAL(65, 2) NOT NULL DEFAULT " + getConfig().getDouble("startingBalance"));
@@ -160,5 +169,9 @@ public final class AngelSkyEconomy extends JavaPlugin {
     }
     public Economy getEco() {
         return eco;
+    }
+
+    public HashMap<UUID, TempPlayerEco> getAccounts() {
+        return accounts;
     }
 }

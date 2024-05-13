@@ -71,6 +71,11 @@ public class YamlEconomy implements Economy {
     return (getBalance(uuid).getBalance() >= amount);
   }
 
+  @Override
+  public PlayerBalance getSQLBalance(UUID paramUUID) {
+    return null;
+  }
+
   public PlayerBalance getBalance(UUID uuid) {
     try {
       YamlData data = new YamlData(angelSkyEconomy, uuid.toString() + ".yml",angelSkyEconomy.getPath() + "/data");
@@ -95,5 +100,14 @@ public class YamlEconomy implements Economy {
       b++;
     }
     return playerData;
+  }
+
+  @Override
+  public void saveTempEco(TempPlayerEco tempPlayerEco) {
+  }
+
+  @Override
+  public void setBalance(UUID uniqueId, double amount) {
+    this.set(uniqueId, amount);
   }
 }

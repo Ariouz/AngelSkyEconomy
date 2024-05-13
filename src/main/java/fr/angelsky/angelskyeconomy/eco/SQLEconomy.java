@@ -119,12 +119,17 @@ public class SQLEconomy implements Economy {
 
   
   public boolean withdraw(UUID uuid, double amount) {
-    return set(uuid, getBalance(uuid).getBalance() - amount);
+    TempPlayerEco tempPlayerEco = this.angelSkyEconomy.getAccounts().get(uuid);
+    if (tempPlayerEco.getBalance() - amount <= 0) return false;
+    tempPlayerEco.setBalance(tempPlayerEco.getBalance() - amount);
+    return true;
   }
 
   
   public boolean deposit(UUID uuid, double amount) {
-    return set(uuid, getBalance(uuid).getBalance() + amount);
+    TempPlayerEco tempPlayerEco = this.angelSkyEconomy.getAccounts().get(uuid);
+    tempPlayerEco.setBalance(tempPlayerEco.getBalance() + amount);
+    return true;
   }
 
   
@@ -146,13 +151,28 @@ public class SQLEconomy implements Economy {
     return true;
   }
 
-  
+  @Override
+  public void saveTempEco(TempPlayerEco tempPlayerEco) {
+      set(tempPlayerEco.getUuid(), tempPlayerEco.getBalance());
+  }
+
+  @Override
+  public void setBalance(UUID uniqueId, double amount) {
+    this.angelSkyEconomy.getAccounts().get(uniqueId).setBalance(amount);
+  }
+
   public boolean has(UUID uuid, double amount) {
     return (getBalance(uuid).getBalance() >= amount);
   }
 
-  
-  public PlayerBalance getBalance(UUID uuid) {
+  @Override
+  public PlayerBalance getBalance(UUID uuid)
+  {
+    TempPlayerEco tmp = this.angelSkyEconomy.getAccounts().get(uuid);
+    return new PlayerBalance(uuid, tmp.getBalance());
+  }
+
+  public PlayerBalance getSQLBalance(UUID uuid) {
     try {
       PreparedStatement statement = this.sql.getConnection().prepareStatement("SELECT * FROM "+this.TABLE+" WHERE UUID=?");
       
@@ -183,4 +203,5 @@ public class SQLEconomy implements Economy {
       return null;
     } 
   }
+
 }

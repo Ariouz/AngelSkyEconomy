@@ -60,7 +60,7 @@ public class MoneySetCommand extends CommandExecutor {
         
         continue;
       }
-      angelSkyEconomy.getEco().set(other.getUniqueId(), amount);
+      angelSkyEconomy.getEco().setBalance(other.getUniqueId(), amount);
       
       if (other instanceof Player && (
         !(sender instanceof Player) || !((Player)sender).equals(other))) {

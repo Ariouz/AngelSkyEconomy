@@ -1,6 +1,7 @@
 package fr.angelsky.angelskyeconomy.listeners;
 
 import fr.angelsky.angelskyeconomy.AngelSkyEconomy;
+import fr.angelsky.angelskyeconomy.eco.TempPlayerEco;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -27,5 +28,6 @@ public class PlayerJoinListener implements Listener {
         }
       }.runTaskAsynchronously(angelSkyEconomy);
     }
+    this.angelSkyEconomy.getAccounts().put(player.getUniqueId(), new TempPlayerEco(player.getUniqueId(), angelSkyEconomy.getEco().getSQLBalance(player.getUniqueId()).getBalance()));
   }
 }
